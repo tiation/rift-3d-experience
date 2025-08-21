@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Save Rainbow Texture</title>
+</head>
+<body>
+    <h1>Right-click the image below and "Save As" -> "rainbow_holographic.jpg"</h1>
+    <canvas id="canvas" width="1024" height="1024" style="border: 1px solid black;"></canvas>
+    <br><br>
+    <button onclick="downloadTexture()">Download Rainbow Texture</button>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Create the holographic rainbow texture from the image you showed
+        function createHolographicTexture() {
+            const gradient = ctx.createRadialGradient(512, 512, 0, 512, 512, 512);
+            
+            // Colors matching your image
+            gradient.addColorStop(0, '#ff66ff');    // Bright magenta center
+            gradient.addColorStop(0.1, '#ff33cc');  // Hot pink
+            gradient.addColorStop(0.2, '#cc66ff');  // Purple-pink
+            gradient.addColorStop(0.3, '#9999ff');  // Light purple
+            gradient.addColorStop(0.4, '#66ccff');  // Light blue
+            gradient.addColorStop(0.5, '#66ffcc');  // Cyan-green
+            gradient.addColorStop(0.6, '#99ff66');  // Light green
+            gradient.addColorStop(0.7, '#ccff66');  // Yellow-green
+            gradient.addColorStop(0.8, '#ffcc66');  // Light orange
+            gradient.addColorStop(0.9, '#ff9966');  // Orange-pink
+            gradient.addColorStop(1, '#ff66cc');    // Back to pink
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 1024, 1024);
+            
+            // Add some swirl patterns like in your image
+            ctx.globalCompositeOperation = 'overlay';
+            for (let i = 0; i < 50; i++) {
+                const hue = (i * 7.2) % 360;
+                ctx.strokeStyle = `hsla(${hue}, 80%, 60%, 0.3)`;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(512 + Math.sin(i * 0.3) * 200, 512 + Math.cos(i * 0.2) * 200, 
+                       100 + Math.sin(i * 0.5) * 50, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+        
+        createHolographicTexture();
+        
+        function downloadTexture() {
+            const link = document.createElement('a');
+            link.download = 'rainbow_holographic.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+        }
+    </script>
+</body>
+</html>

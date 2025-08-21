@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Rainbow Environment Texture</title>
+</head>
+<body>
+    <canvas id="canvas" width="512" height="512"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Create rainbow gradient
+        const gradient = ctx.createLinearGradient(0, 0, 512, 512);
+        gradient.addColorStop(0, '#ff0080');    // Hot pink
+        gradient.addColorStop(0.16, '#ff4000'); // Red-orange
+        gradient.addColorStop(0.32, '#ffff00'); // Yellow
+        gradient.addColorStop(0.48, '#00ff40'); // Green
+        gradient.addColorStop(0.64, '#0080ff'); // Blue
+        gradient.addColorStop(0.8, '#8000ff');  // Purple
+        gradient.addColorStop(1, '#ff0080');    // Back to hot pink
+        
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 512, 512);
+        
+        // Download the image
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.download = 'rainbow_environment.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+        }, 100);
+    </script>
+</body>
+</html>

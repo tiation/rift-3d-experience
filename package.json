@@ -1,0 +1,55 @@
+{
+  "name": "rift-3d-experience",
+  "version": "1.0.0",
+  "description": "Interactive 3D experiences with scroll-based animations. Choose from skateboard, guitar, sphere, cube, torus, diamond, and rocket!",
+  "main": "start.js",
+  "bin": {
+    "rift-3d": "./start.js"
+  },
+  "files": [
+    "start.js",
+    "rift-components.js",
+    "rift-components-library.js",
+    "index.html",
+    "guitar-rift.html",
+    "three.min.js",
+    "OBJLoader.js",
+    "skateboard.obj",
+    "original_C.jpg",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "node start.js",
+    "dev": "node start.js",
+    "server": "python3 -m http.server 8000",
+    "demo": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "3d",
+    "three.js",
+    "webgl",
+    "animation",
+    "scroll",
+    "components",
+    "modular",
+    "rift",
+    "web3d"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/rift-components.git"
+  },
+  "homepage": "https://github.com/yourusername/rift-components#readme",
+  "bugs": {
+    "url": "https://github.com/yourusername/rift-components/issues"
+  },
+  "peerDependencies": {
+    "three": "^0.128.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
