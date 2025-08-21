@@ -39,11 +39,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/rift-components.git"
+    "url": "https://github.com/tiation/rift-3d-experience.git"
   },
-  "homepage": "https://github.com/yourusername/rift-components#readme",
+  "homepage": "https://github.com/tiation/rift-3d-experience#readme",
   "bugs": {
-    "url": "https://github.com/yourusername/rift-components/issues"
+    "url": "https://github.com/tiation/rift-3d-experience/issues"
   },
   "peerDependencies": {
     "three": "^0.128.0"
