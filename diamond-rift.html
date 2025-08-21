@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rift Diamond - 3D Experience</title>
+    <title>Rift Diamond - Exact Replica</title>
     <style>
         body {
             margin: 0;
@@ -63,22 +63,22 @@
             background: rgba(240, 240, 240, 0.1);
         }
 
-        .shape-section {
+        .Diamond-section {
             background: rgba(255, 255, 255, 0.2);
             flex-direction: column;
             gap: 20px;
         }
 
-        .shape-section h1 {
+        .Diamond-section h1 {
             font-size: 3rem;
             margin: 0;
-            background: linear-gradient(90deg, #ffecd2 0%, #fcb69f 100%);
+            background: linear-gradient(90deg, #FF8C00 6.25%, #FFA500 94.27%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
         }
 
-        .shape-section p {
+        .Diamond-section p {
             font-size: 1.5rem;
             margin: 0;
             text-align: center;
@@ -143,12 +143,12 @@
     <section class="main_content_scroll" id="new_body">
         <div class="content">
             <div class="section">
-                <h1>Scroll down to see the diamond in action</h1>
+                <h1>Scroll down to see the Diamond in action</h1>
             </div>
             
-            <div class="section shape-section">
+            <div class="section Diamond-section">
                 <h1>Rift Diamond</h1>
-                <p>This brilliant diamond crystal sparkles with environment reflections</p>
+                <p>This 3D Diamond rotates and moves with your scroll, exactly like in the original Rift app</p>
             </div>
             
             <div class="section">
@@ -166,15 +166,19 @@
     </section>
 
     <script src="three.min.js"></script>
+    <script src="OBJLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FontLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/geometries/TextGeometry.js"></script>
     
     <script>
-        let scene, camera, renderer, sphereCamera, shape3D;
+        let scene, camera, renderer, sphereCamera, Diamond;
         let new_body = document.getElementById("new_body");
         let loader = document.getElementById("loader");
         let progress = document.getElementById("progress");
 
         function init() {
             const loadingManager = new THREE.LoadingManager(
+                //loaded
                 () => {
                     console.log("loaded 3d");
                     clearLoader();
@@ -182,6 +186,7 @@
                     camera.position.y = t * -0.004;
                     render();
                 },
+                //progress
                 (itemUrl, itemsLoaded, itemsTotal) => {
                     const percent = Math.round((itemsLoaded / itemsTotal) * 100);
                     progress.textContent = `${percent}%`;
@@ -194,37 +199,86 @@
             camera.position.set(0, 0, 5);
 
             renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
-            renderer.setClearColor(0xffffff, 0);
+            renderer.setClearColor( 0xffffff, 0 );
             renderer.autoClear = false;
             renderer.setSize(window.innerWidth, window.innerHeight);
 
             document.getElementById('bear-holder').appendChild(renderer.domElement);
 
+            // Create cube camera for environment reflections (exact original implementation)
             sphereCamera = new THREE.CubeCamera(1, 9000000000000, 500);
             sphereCamera.position.set(0, 0, 0);
             scene.add(sphereCamera);
             
-            let shapeMaterial = new THREE.MeshPhongMaterial({
-                envMap: sphereCamera.renderTarget.texture
+            // Exact original material from Rift app
+            let DiamondMaterial = new THREE.MeshPhongMaterial({
+                envMap: sphereCamera.renderTarget.texture,
+                color: 0xFF8C00  // Brown Diamond color
             });
 
+            // Create Diamond directly (no OBJ loading needed)
+            console.log('Creating Diamond geometry...');
+            const DiamondGeometry = new THREE.OctahedronGeometry(1.5);
+            Diamond = new THREE.Mesh(DiamondGeometry, DiamondMaterial);
+            Diamond.material.flatShading = false;
             
-    const geometry = new THREE.OctahedronGeometry(1.5, 1);
-    shape3D = new THREE.Mesh(geometry, shapeMaterial);
-    scene.add(shape3D);
-    updateResponsivePositioning();
-  
+            scene.add(Diamond);
+            console.log('Diamond added to scene');
 
+            // Responsive positioning exactly like original skateboard
+            if (window.innerWidth < 420) {
+                Diamond.position.y = -3.38;
+                Diamond.position.x = 1.6;
+                Diamond.scale.set(1.3, 1.3, 1.3);
+            }
+            else if (window.innerWidth < 770) {
+                Diamond.position.y = -2.3;
+                Diamond.position.x = 1;
+                Diamond.scale.set(1.2, 1.2, 1.2);
+            }
+            else if (window.innerWidth < 1050) {
+                Diamond.position.y = -1.3;
+                Diamond.position.x = 1;
+                Diamond.scale.set(1, 1, 1);
+            }
+            else if (window.innerWidth < 1500) {
+                Diamond.position.y = -3.8;
+                Diamond.position.x = 0;
+                Diamond.scale.set(1.3, 1.3, 1.3);
+            }
+            else if (window.innerWidth < 1550) {
+                Diamond.position.y = -3.7;
+                Diamond.position.x = 0;
+                Diamond.scale.set(1.3, 1.3, 1.3);
+            }
+            else {
+                Diamond.position.y = -3.5;
+                Diamond.position.x = 0;
+                Diamond.scale.set(1.3, 1.3, 1.3);
+            }
+
+            // Original Rift lighting setup
             const ambientLight = new THREE.AmbientLight(0xffffff, 1);
             scene.add(ambientLight);
 
+            // Use exact original environment setup like the original Rift app
             let materialArray = [];
-            let texture = new THREE.TextureLoader().load('original_C.jpg');
+            let texture_ft = new THREE.TextureLoader().load('original_C.jpg');
+            let texture_bk = new THREE.TextureLoader().load('original_C.jpg');
+            let texture_up = new THREE.TextureLoader().load('original_C.jpg');
+            let texture_dn = new THREE.TextureLoader().load('original_C.jpg');
+            let texture_rt = new THREE.TextureLoader().load('original_C.jpg');
+            let texture_lf = new THREE.TextureLoader().load('original_C.jpg');
             
-            for (let i = 0; i < 6; i++) {
-                materialArray.push(new THREE.MeshBasicMaterial({ map: texture }));
+            materialArray.push(new THREE.MeshBasicMaterial({ map: texture_ft }));
+            materialArray.push(new THREE.MeshBasicMaterial({ map: texture_bk }));
+            materialArray.push(new THREE.MeshBasicMaterial({ map: texture_up }));
+            materialArray.push(new THREE.MeshBasicMaterial({ map: texture_dn }));
+            materialArray.push(new THREE.MeshBasicMaterial({ map: texture_rt }));
+            materialArray.push(new THREE.MeshBasicMaterial({ map: texture_lf }));
+                 
+            for (let i = 0; i < 6; i++)
                 materialArray[i].side = THREE.BackSide;
-            }
                      
             let skyboxGeo = new THREE.SphereGeometry(9000000000000, 62, 62);
             let skybox = new THREE.Mesh(skyboxGeo, materialArray);
@@ -235,48 +289,18 @@
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-                updateResponsivePositioning();
             });
-        }
 
-        function updateResponsivePositioning() {
-            if (!shape3D) return;
-            
-            if (window.innerWidth < 420) {
-                shape3D.position.y = -3.38;
-                shape3D.position.x = 1.6;
-                shape3D.scale.set(1.3, 1.3, 1.3);
-            }
-            else if (window.innerWidth < 770) {
-                shape3D.position.y = -2.3;
-                shape3D.position.x = 1;
-                shape3D.scale.set(1.2, 1.2, 1.2);
-            }
-            else if (window.innerWidth < 1050) {
-                shape3D.position.y = -1.3;
-                shape3D.position.x = 1;
-                shape3D.scale.set(1, 1, 1);
-            }
-            else if (window.innerWidth < 1500) {
-                shape3D.position.y = -3.8;
-                shape3D.position.x = 0;
-                shape3D.scale.set(1.3, 1.3, 1.3);
-            }
-            else if (window.innerWidth < 1550) {
-                shape3D.position.y = -3.7;
-                shape3D.position.x = 0;
-                shape3D.scale.set(1.3, 1.3, 1.3);
-            }
-            else {
-                shape3D.position.y = -3.5;
-                shape3D.position.x = 0;
-                shape3D.scale.set(1.3, 1.3, 1.3);
-            }
+            // Manually trigger the LoadingManager completion since we're not loading files
+            setTimeout(() => {
+                loadingManager.onLoad();
+            }, 100);
         }
 
         function moveCamera() {
             const t = new_body.scrollTop;
 
+            // Exact camera movement logic from original
             if (window.innerWidth < 450) {
                 camera.position.y = t * -0.006;
             }
@@ -300,11 +324,14 @@
         function render() {
             renderer.render(scene, camera);
             sphereCamera.update(renderer, scene);
+
             new_body.onscroll = moveCamera;
+
             requestAnimationFrame(render);
 
-            if (shape3D) {
-                shape3D.rotation.x += -0.02;
+            // Exact rotation from original
+            if (Diamond) {
+                Diamond.rotation.x += -0.02;
             }
         }
 
@@ -312,6 +339,7 @@
             loader.style.display = 'none';
         }
 
+        // Start the app
         init();
     </script>
 </body>
