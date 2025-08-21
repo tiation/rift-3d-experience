@@ -63,22 +63,22 @@
             background: rgba(240, 240, 240, 0.1);
         }
 
-        .Diamond-section {
+        .diamond-section {
             background: rgba(255, 255, 255, 0.2);
             flex-direction: column;
             gap: 20px;
         }
 
-        .Diamond-section h1 {
+        .diamond-section h1 {
             font-size: 3rem;
             margin: 0;
-            background: linear-gradient(90deg, #FF8C00 6.25%, #FFA500 94.27%);
+            background: linear-gradient(90deg, #667eea 6.25%, #764ba2 94.27%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
         }
 
-        .Diamond-section p {
+        .diamond-section p {
             font-size: 1.5rem;
             margin: 0;
             text-align: center;
@@ -143,12 +143,12 @@
     <section class="main_content_scroll" id="new_body">
         <div class="content">
             <div class="section">
-                <h1>Scroll down to see the Diamond in action</h1>
+                <h1>Scroll down to see the diamond in action</h1>
             </div>
             
-            <div class="section Diamond-section">
+            <div class="section diamond-section">
                 <h1>Rift Diamond</h1>
-                <p>This 3D Diamond rotates and moves with your scroll, exactly like in the original Rift app</p>
+                <p>This 3D diamond rotates and moves with your scroll, exactly like in the original Rift app</p>
             </div>
             
             <div class="section">
@@ -171,7 +171,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/geometries/TextGeometry.js"></script>
     
     <script>
-        let scene, camera, renderer, sphereCamera, Diamond;
+        let scene, camera, renderer, sphereCamera, diamond;
         let new_body = document.getElementById("new_body");
         let loader = document.getElementById("loader");
         let progress = document.getElementById("progress");
@@ -211,50 +211,49 @@
             scene.add(sphereCamera);
             
             // Exact original material from Rift app
-            let DiamondMaterial = new THREE.MeshPhongMaterial({
-                envMap: sphereCamera.renderTarget.texture,
-                color: 0xFF8C00  // Brown Diamond color
+            let diamondMaterial = new THREE.MeshPhongMaterial({
+                envMap: sphereCamera.renderTarget.texture
             });
 
-            // Create Diamond directly (no OBJ loading needed)
-            console.log('Creating Diamond geometry...');
-            const DiamondGeometry = new THREE.OctahedronGeometry(1.5);
-            Diamond = new THREE.Mesh(DiamondGeometry, DiamondMaterial);
-            Diamond.material.flatShading = false;
+            // Create diamond directly (no OBJ loading needed)
+            console.log('Creating diamond geometry...');
+            const diamondGeometry = new THREE.OctahedronGeometry(1.5);
+            diamond = new THREE.Mesh(diamondGeometry, diamondMaterial);
+            diamond.material.flatShading = false;
             
-            scene.add(Diamond);
+            scene.add(diamond);
             console.log('Diamond added to scene');
 
             // Responsive positioning exactly like original skateboard
             if (window.innerWidth < 420) {
-                Diamond.position.y = -3.38;
-                Diamond.position.x = 1.6;
-                Diamond.scale.set(1.3, 1.3, 1.3);
+                diamond.position.y = -3.38;
+                diamond.position.x = 1.6;
+                diamond.scale.set(1.3, 1.3, 1.3);
             }
             else if (window.innerWidth < 770) {
-                Diamond.position.y = -2.3;
-                Diamond.position.x = 1;
-                Diamond.scale.set(1.2, 1.2, 1.2);
+                diamond.position.y = -2.3;
+                diamond.position.x = 1;
+                diamond.scale.set(1.2, 1.2, 1.2);
             }
             else if (window.innerWidth < 1050) {
-                Diamond.position.y = -1.3;
-                Diamond.position.x = 1;
-                Diamond.scale.set(1, 1, 1);
+                diamond.position.y = -1.3;
+                diamond.position.x = 1;
+                diamond.scale.set(1, 1, 1);
             }
             else if (window.innerWidth < 1500) {
-                Diamond.position.y = -3.8;
-                Diamond.position.x = 0;
-                Diamond.scale.set(1.3, 1.3, 1.3);
+                diamond.position.y = -3.8;
+                diamond.position.x = 0;
+                diamond.scale.set(1.3, 1.3, 1.3);
             }
             else if (window.innerWidth < 1550) {
-                Diamond.position.y = -3.7;
-                Diamond.position.x = 0;
-                Diamond.scale.set(1.3, 1.3, 1.3);
+                diamond.position.y = -3.7;
+                diamond.position.x = 0;
+                diamond.scale.set(1.3, 1.3, 1.3);
             }
             else {
-                Diamond.position.y = -3.5;
-                Diamond.position.x = 0;
-                Diamond.scale.set(1.3, 1.3, 1.3);
+                diamond.position.y = -3.5;
+                diamond.position.x = 0;
+                diamond.scale.set(1.3, 1.3, 1.3);
             }
 
             // Original Rift lighting setup
@@ -330,8 +329,8 @@
             requestAnimationFrame(render);
 
             // Exact rotation from original
-            if (Diamond) {
-                Diamond.rotation.x += -0.02;
+            if (diamond) {
+                diamond.rotation.x += -0.02;
             }
         }
 
